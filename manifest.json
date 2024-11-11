@@ -1,0 +1,14 @@
+{
+    "manifest_version": 3,
+    "name": "Emojify",
+    "version": "1.0",
+    "description": "Emojify Sidebar",
+    "permissions": ["sidePanel"],
+    "side_panel": {
+      "default_path": "sidebar.html"
+    },
+    "background": {
+      "service_worker": "background.js"
+    },
+    "action": {}
+  }

@@ -3,12 +3,23 @@
     "name": "Emojify",
     "version": "1.0",
     "description": "Emojify Sidebar",
-    "permissions": ["sidePanel"],
+    "icons": {
+      "128": "icon128.png"
+    },
+    "permissions": [
+      "sidePanel",
+      "contextMenus",
+      "storage"
+    ],
     "side_panel": {
       "default_path": "sidebar.html"
     },
     "background": {
       "service_worker": "background.js"
     },
-    "action": {}
-  }
+    "action": {
+      "default_icon": {
+        "32": "icon32.png"
+      }
+    }
+}

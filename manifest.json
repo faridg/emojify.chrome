@@ -4,7 +4,7 @@
     "version": "1.0",
     "description": "Emojify Sidebar",
     "icons": {
-      "128": "icon128.png"
+      "128": "icons/icon128.png"
     },
     "permissions": [
       "sidePanel",
@@ -20,8 +20,8 @@
     },
     "action": {
       "default_icon": {
-        "32": "icon32.png"
+        "32": "icons/icon32.png"
       }
     },
-    "trial_tokens": ["TOKEN_GOES_HERE"]
+    "trial_tokens": ["At3FOnkK/+sud59w8ZGezxw47PTqCqU3Eb7T878sOgW5iwoyv6PNIOiHbdQZyhcjfixNzoR9DKHjiR91ta4NhgMAAAB4eyJvcmlnaW4iOiJjaHJvbWUtZXh0ZW5zaW9uOi8vYWtmbmplZmdpa2twYmRsY21oZGdiZmJvbGtjbm9qcGsiLCJmZWF0dXJlIjoiQUlQcm9tcHRBUElGb3JFeHRlbnNpb24iLCJleHBpcnkiOjE3NjA0ODYzOTl9"]
 }

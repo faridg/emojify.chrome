@@ -1,12 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Emojify Sidebar</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emojify Sidebar</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h2>Sidebar</h2>
-  <textarea id="inputText" placeholder="Selected text will appear here..."></textarea>
-  <script src="sidebar.js"></script>
+    <div class="sidebar">
+
+        <div class="content">
+
+            <div class="default-state">
+                <h1 class="welcome-text">Add a friendly 👉 touch to your text. Adjust to your style✨.</h1>
+            </div>
+
+            <div class="text-state hidden">
+                <div class="style-control">
+                    <div class="style-label">Text Styling</div>
+                    <div class="slider-container">
+                        <div class="slider-track">
+                            <div class="slider-handle"></div>
+                        </div>
+                    </div>
+                </div>
+                <textarea id="inputText" class="text-content" readonly></textarea>
+                <button class="copy-button">Copy text</button>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="input-container">
+                <input type="text" placeholder="Add your text here or right click on selected text on page" class="message-input">
+                <button class="send-button">➤</button>
+            </div>
+        </div>
+    </div>
+    <script src="sidebar.js"></script>
 </body>
 </html>

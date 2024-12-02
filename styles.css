@@ -192,3 +192,9 @@ body {
 .hidden {
   display: none;
 }
+
+.emoji {
+  background: none;
+  -webkit-background-clip: initial;
+  -webkit-text-fill-color: initial;
+}

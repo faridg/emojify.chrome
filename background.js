@@ -2,7 +2,7 @@
 chrome.runtime.onInstalled.addListener(() => {
     chrome.contextMenus.create({
       id: 'copyToSidebar',
-      title: 'Analyze Text with Emoji',
+      title: 'Emojify',
       contexts: ['selection']
     });
     

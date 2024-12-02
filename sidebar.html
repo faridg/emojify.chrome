@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Emojify Sidebar</title>
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
     <div class="sidebar">
         <div class="content">
             <div class="default-state">
                 <h1 class="welcome-text">Add a friendly 👉 touch to your text. Adjust to your style✨.</h1>
                 <div class="welcome-input-container">
-                    <textarea 
-                        class="welcome-textarea" 
-                        placeholder="Paste your text here or right click on selected text on any webpage"
-                    ></textarea>
+                    <textarea class="welcome-textarea"
+                        placeholder="Paste your text here or right click on selected text on any webpage"></textarea>
                     <button class="emojify-button">Emojify</button>
                 </div>
             </div>
@@ -29,14 +29,16 @@
                         </div>
                     </div>
                 </div>
-                <textarea id="inputText" class="text-content" readonly></textarea>
+                <textarea id="inputText" class="text-content"></textarea>
                 <div class="button-container">
-                    <button class="copy-button">Copy text</button>
+                    <button class="copy-button">Copy</button>
                     <button class="clear-button">Clear</button>
                 </div>
+                <button class="emojify-button-secondary hidden">Emojify</button>
             </div>
         </div>
     </div>
     <script src="sidebar.js"></script>
 </body>
+
 </html>

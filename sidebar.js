@@ -14,12 +14,12 @@ async function getEmoji(text) {
       }
   }
     
-    try {
+  try {
       const emoji = await nanoSession.prompt(`analyze and return single most relevant emoji for the text: "${text}"`);
       return emoji.trim();
-    } catch {
+  } catch {
       return '';
-    }
+  }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -30,8 +30,27 @@ document.addEventListener('DOMContentLoaded', () => {
     const welcomeTextarea = document.querySelector('.welcome-textarea');
     const emojifyButton = document.querySelector('.emojify-button');
     const clearButton = document.querySelector('.clear-button');
+    const emojifyButtonSecondary = document.querySelector('.emojify-button-secondary');
+
+    // handle text input on second screen
+    textarea.addEventListener('input', () => {
+        if (textarea.value.trim()) {
+            emojifyButtonSecondary.classList.remove('hidden');
+        } else {
+            emojifyButtonSecondary.classList.add('hidden');
+        }
+    });
+
+    // handle secondary emojify button
+    emojifyButtonSecondary.addEventListener('click', async () => {
+        if (textarea.value.trim()) {
+            const emoji = await getEmoji(textarea.value);
+            textarea.value = emoji ? `${emoji} ${textarea.value}` : textarea.value;
+            emojifyButtonSecondary.classList.add('hidden');
+        }
+    });
     
-    // handle emojify button
+    // handle main emojify button
     emojifyButton.addEventListener('click', async () => {
         if (welcomeTextarea.value.trim()) {
             const emoji = await getEmoji(welcomeTextarea.value);
@@ -50,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
             copyButton.classList.add('copied');
             
             setTimeout(() => {
-                copyButton.textContent = 'Copy text';
+                copyButton.textContent = 'Copy';
                 copyButton.classList.remove('copied');
             }, 3000);
         }
@@ -62,6 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
         textState.classList.add('hidden');
         defaultState.classList.remove('hidden');
         welcomeTextarea.value = '';
+        emojifyButtonSecondary.classList.add('hidden');
     });
 
     // load initial text if exists

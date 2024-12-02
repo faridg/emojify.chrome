@@ -141,21 +141,29 @@ body {
   outline: none;
 }
 
-.copy-button {
+.button-container {
+  display: flex;
+  gap: 16px;
+}
+
+.copy-button, .clear-button {
   font-family: 'Tilt Warp', sans-serif;
   font-size: 20px;
   font-style: normal;
   text-align: center;
   width: 100%;
   padding: 12px;
-  background: #362517;
-  color: white;
-  border: none;
   border-radius: 8px;
   font-weight: 400;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: all 0.2s;
   line-height: 24px;
+}
+
+.copy-button {
+  background: #362517;
+  color: white;
+  border: none;
 }
 
 .copy-button:hover {
@@ -164,6 +172,17 @@ body {
 
 .copy-button.copied {
   background: #28a745;
+}
+
+.clear-button {
+  background: #fff;
+  color: #362517;
+  border: 2px solid #362517;
+}
+
+.clear-button:hover {
+  background: #362517;
+  color: #fff;
 }
 
 .hidden {

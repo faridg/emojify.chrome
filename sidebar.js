@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const copyButton = document.querySelector('.copy-button');
     const welcomeTextarea = document.querySelector('.welcome-textarea');
     const emojifyButton = document.querySelector('.emojify-button');
+    const clearButton = document.querySelector('.clear-button');
     
     // handle emojify button
     emojifyButton.addEventListener('click', async () => {
@@ -55,6 +56,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // handle clear button
+    clearButton.addEventListener('click', () => {
+        textarea.value = '';
+        textState.classList.add('hidden');
+        defaultState.classList.remove('hidden');
+        welcomeTextarea.value = '';
+    });
+
     // load initial text if exists
     chrome.storage.local.get(['selectedText'], async (result) => {
         if (result.selectedText) {
@@ -66,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
   
-    // listen for storage changes
+    // handle storage changes
     chrome.storage.onChanged.addListener(async (changes, namespace) => {
       if (namespace === 'local' && changes.selectedText) {
         const newText = changes.selectedText.newValue || '';

@@ -8,11 +8,16 @@
 </head>
 <body>
     <div class="sidebar">
-
         <div class="content">
-
             <div class="default-state">
                 <h1 class="welcome-text">Add a friendly 👉 touch to your text. Adjust to your style✨.</h1>
+                <div class="welcome-input-container">
+                    <textarea 
+                        class="welcome-textarea" 
+                        placeholder="Paste your text here or right click on selected text on any webpage"
+                    ></textarea>
+                    <button class="emojify-button">Emojify</button>
+                </div>
             </div>
 
             <div class="text-state hidden">
@@ -26,13 +31,6 @@
                 </div>
                 <textarea id="inputText" class="text-content" readonly></textarea>
                 <button class="copy-button">Copy text</button>
-            </div>
-        </div>
-
-        <div class="footer">
-            <div class="input-container">
-                <input type="text" placeholder="Add your text here or right click on selected text on page" class="message-input">
-                <button class="send-button">➤</button>
             </div>
         </div>
     </div>

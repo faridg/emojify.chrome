@@ -19,41 +19,6 @@ body {
   flex-direction: column;
 }
 
-.header {
-  padding: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.logo-circle {
-  width: 24px;
-  height: 24px;
-  background: #FFD700;
-  border-radius: 50%;
-}
-
-.logo-text {
-  font-weight: bold;
-  font-size: 16px;
-}
-
-.close-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 20px;
-  color: #666;
-  padding: 4px;
-}
-
 .content {
   flex: 1;
   padding: 24px;
@@ -72,6 +37,53 @@ body {
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+.welcome-input-container {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.welcome-textarea {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.03);
+  border-radius: 8px;
+  padding: 16px;
+  min-height: 150px;
+  border: none;
+  resize: none;
+  line-height: 24px;
+}
+
+.welcome-textarea:focus {
+  outline: none;
+}
+
+.emojify-button {
+  font-family: 'Tilt Warp', sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  text-align: center;
+  width: 100%;
+  padding: 12px;
+  background: #362517;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  line-height: 24px;
+}
+
+.emojify-button:hover {
+  background: #4a3423;
 }
 
 .style-control {
@@ -152,52 +164,6 @@ body {
 
 .copy-button.copied {
   background: #28a745;
-}
-
-.footer {
-  padding: 16px;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-.input-container {
-  display: flex;
-  gap: 8px;
-  background: rgba(0, 0, 0, 0.03);
-  padding: 8px;
-  border-radius: 8px;
-}
-
-.message-input {
-  font-family: 'Tilt Warp', sans-serif;
-  font-style: normal;
-  flex: 1;
-  border: none;
-  background: none;
-  padding: 8px;
-  font-size: 14px;
-}
-
-.message-input:focus {
-  outline: none;
-}
-
-.message-input::placeholder {
-  font-family: 'Tilt Warp', sans-serif;
-  font-style: normal;
-  color: #999;
-}
-
-.send-button {
-  background: #362517;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
 }
 
 .hidden {

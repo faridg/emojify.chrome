@@ -27,10 +27,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const defaultState = document.querySelector('.default-state');
     const textState = document.querySelector('.text-state');
     const copyButton = document.querySelector('.copy-button');
-    const messageInput = document.querySelector('.message-input');
-    const sendButton = document.querySelector('.send-button');
+    const welcomeTextarea = document.querySelector('.welcome-textarea');
+    const emojifyButton = document.querySelector('.emojify-button');
     
-    // handle copy functionality
+    // handle emojify button
+    emojifyButton.addEventListener('click', async () => {
+        if (welcomeTextarea.value.trim()) {
+            const emoji = await getEmoji(welcomeTextarea.value);
+            textarea.value = emoji ? `${emoji} ${welcomeTextarea.value}` : welcomeTextarea.value;
+            defaultState.classList.add('hidden');
+            textState.classList.remove('hidden');
+            welcomeTextarea.value = '';
+        }
+    });
+
+    // handle copy button
     copyButton.addEventListener('click', async () => {
         if (textarea.value) {
             await navigator.clipboard.writeText(textarea.value);
@@ -44,26 +55,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // handle manual text input
-    sendButton.addEventListener('click', async () => {
-        if (messageInput.value.trim()) {
-            const emoji = await getEmoji(messageInput.value);
-            textarea.value = emoji ? `${emoji} ${messageInput.value}` : messageInput.value;
+    // load initial text if exists
+    chrome.storage.local.get(['selectedText'], async (result) => {
+        if (result.selectedText) {
+            const emoji = await getEmoji(result.selectedText);
+            textarea.value = emoji ? `${emoji} ${result.selectedText}` : result.selectedText;
             defaultState.classList.add('hidden');
             textState.classList.remove('hidden');
-            messageInput.value = '';
+            chrome.storage.local.remove(['selectedText']);
         }
-    });
-
-    // initial load of text if exists
-    chrome.storage.local.get(['selectedText'], async (result) => {
-      if (result.selectedText) {
-        const emoji = await getEmoji(result.selectedText);
-        textarea.value = emoji ? `${emoji} ${result.selectedText}` : result.selectedText;
-        defaultState.classList.add('hidden');
-        textState.classList.remove('hidden');
-        chrome.storage.local.remove(['selectedText']);
-      }
     });
   
     // listen for storage changes
@@ -99,4 +99,4 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('mouseup', () => {
         isDragging = false;
     });
-  });
+});

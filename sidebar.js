@@ -3,9 +3,27 @@ let nanoSession = null;
 
 // slider state constants
 const SLIDER_STATES = {
-  FORMAL: { position: 0, temperature: 0.3, topK: 1 },
-  BALANCED: { position: 50, temperature: 0.7, topK: 3 },
-  CREATIVE: { position: 100, temperature: 1, topK: 5 }
+  FORMAL: { 
+    position: 0, 
+    temperature: 0.3, 
+    topK: 1,
+    maxEmojis: 1,
+    prompt: 'analyze text and return single most professional and relevant emoji'
+  },
+  BALANCED: { 
+    position: 50, 
+    temperature: 0.7, 
+    topK: 3,
+    maxEmojis: 2,
+    prompt: 'analyze text and return 1-2 most relevant emojis that best represent the key themes or emotions'
+  },
+  CREATIVE: { 
+    position: 100, 
+    temperature: 1, 
+    topK: 5,
+    maxEmojis: 3,
+    prompt: 'analyze text and return 2-3 creative and expressive emojis that capture the mood, themes, and subtle context'
+  }
 };
 
 // get slider state based on position
@@ -44,25 +62,53 @@ async function updateNanoParameters(temperature, topK) {
   }
 }
 
-// get emoji for text via nano
-async function getEmoji(text) {
+// get emojis for text via nano
+async function getEmojis(text, state) {
   if (!nanoSession) {
     try {
       nanoSession = await chrome.aiOriginTrial.languageModel.create({
-        systemPrompt: 'respond with single most relevant emoji only'
+        systemPrompt: 'you analyze text and return only emojis without any other text or explanation'
       });
-      const initialState = getSliderState(50);
-      await updateNanoParameters(initialState.temperature, initialState.topK);
+      await updateNanoParameters(state.temperature, state.topK);
     } catch {
       return '';
     }
   }
     
   try {
-    const emoji = await nanoSession.prompt(`analyze and return single most relevant emoji for the text: "${text}"`);
-    return emoji.trim();
+    const emojis = await nanoSession.prompt(state.prompt + ` text to analyze: "${text}"`);
+    return emojis.trim();
   } catch {
     return '';
+  }
+}
+
+// format text with emojis
+function formatWithEmojis(text, emojis) {
+  if (!emojis) return text;
+  
+  // remove any whitespace between emojis
+  const cleanEmojis = emojis.replace(/\s+/g, '');
+  
+  // split text into sentences for more natural emoji placement
+  const sentences = text.split(/(?<=[.!?])\s+/);
+  
+  if (sentences.length === 1) {
+    // single sentence - place emojis at start
+    return `${cleanEmojis} ${text}`;
+  } else {
+    // multiple sentences - distribute emojis
+    const emojiArray = Array.from(cleanEmojis);
+    let emojiIndex = 0;
+    
+    return sentences.map(sentence => {
+      if (emojiIndex < emojiArray.length) {
+        const result = `${emojiArray[emojiIndex]} ${sentence}`;
+        emojiIndex++;
+        return result;
+      }
+      return sentence;
+    }).join(' ');
   }
 }
 
@@ -101,8 +147,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // handle secondary emojify button
   emojifyButtonSecondary.addEventListener('click', async () => {
     if (textarea.value.trim()) {
-      const emoji = await getEmoji(textarea.value);
-      textarea.value = emoji ? `${emoji} ${textarea.value}` : textarea.value;
+      const originalText = textarea.value.replace(/[\u{1F300}-\u{1F9FF}]/gu, '').trim();
+      const emojis = await getEmojis(originalText, currentState);
+      textarea.value = formatWithEmojis(originalText, emojis);
       emojifyButtonSecondary.classList.add('hidden');
     }
   });
@@ -110,8 +157,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // handle main emojify button
   emojifyButton.addEventListener('click', async () => {
     if (welcomeTextarea.value.trim()) {
-      const emoji = await getEmoji(welcomeTextarea.value);
-      textarea.value = emoji ? `${emoji} ${welcomeTextarea.value}` : welcomeTextarea.value;
+      const emojis = await getEmojis(welcomeTextarea.value, currentState);
+      textarea.value = formatWithEmojis(welcomeTextarea.value, emojis);
       defaultState.classList.add('hidden');
       textState.classList.remove('hidden');
       welcomeTextarea.value = '';
@@ -144,8 +191,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // load initial text if exists
   chrome.storage.local.get(['selectedText'], async (result) => {
     if (result.selectedText) {
-      const emoji = await getEmoji(result.selectedText);
-      textarea.value = emoji ? `${emoji} ${result.selectedText}` : result.selectedText;
+      const emojis = await getEmojis(result.selectedText, currentState);
+      textarea.value = formatWithEmojis(result.selectedText, emojis);
       defaultState.classList.add('hidden');
       textState.classList.remove('hidden');
       chrome.storage.local.remove(['selectedText']);
@@ -156,8 +203,8 @@ document.addEventListener('DOMContentLoaded', () => {
   chrome.storage.onChanged.addListener(async (changes, namespace) => {
     if (namespace === 'local' && changes.selectedText) {
       const newText = changes.selectedText.newValue || '';
-      const emoji = await getEmoji(newText);
-      textarea.value = emoji ? `${emoji} ${newText}` : newText;
+      const emojis = await getEmojis(newText, currentState);
+      textarea.value = formatWithEmojis(newText, emojis);
       defaultState.classList.add('hidden');
       textState.classList.remove('hidden');
     }

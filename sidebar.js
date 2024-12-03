@@ -182,6 +182,10 @@ document.addEventListener('DOMContentLoaded', () => {
       if (newState.state !== currentState.state) {
         currentState = newState;
         updateNanoParameters(currentState.temperature, currentState.topK);
+        // show emojify button when state changes
+        if (textarea.value.trim()) {
+          emojifyButtonSecondary.classList.remove('hidden');
+        }
       }
     }
   });
@@ -193,6 +197,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const newState = getSliderState(currentPosition);
       sliderHandle.style.left = `${newState.position}%`;
       styleLabel.textContent = newState.label;
+      // show emojify button on slider release
+      if (textarea.value.trim()) {
+        emojifyButtonSecondary.classList.remove('hidden');
+      }
     }
   });
 });

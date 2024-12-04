@@ -7,25 +7,25 @@ const SLIDER_STATES = {
     position: 0, 
     temperature: 0.3, 
     topK: 1,
-    maxEmojis: 1,
+    maxEmojis: 2,
     prompt: 'summarize and rewrite the following text in a formal and concise way. respond with only the rewritten text without any explanations:',
-    emojiPrompt: 'select a single professional emoji that matches this text. respond with only the emoji:'
+    emojiPrompt: 'select two professional emojis that matches this text. respond with only the emojis:'
   },
   BALANCED: { 
     position: 50, 
     temperature: 0.7, 
     topK: 3,
-    maxEmojis: 2,
+    maxEmojis: 5,
     prompt: 'summarize and rewrite this text in a balanced and natural way. respond with only the rewritten text without any explanations:',
-    emojiPrompt: 'select 1-2 relevant emojis that match this text. respond with only the emojis:'
+    emojiPrompt: 'select 3-5 relevant emojis that match this text. respond with only the emojis:'
   },
   CREATIVE: { 
     position: 100, 
     temperature: 1, 
     topK: 5,
-    maxEmojis: 3,
+    maxEmojis: 10,
     prompt: 'summarize and rewrite this text in an expressive and engaging way. respond with only the rewritten text without any explanations:',
-    emojiPrompt: 'select 2-3 expressive emojis that match this text. respond with only the emojis:'
+    emojiPrompt: 'select 5-10 expressive emojis that match this text. respond with only the emojis:'
   }
 };
 
@@ -169,10 +169,26 @@ document.addEventListener('DOMContentLoaded', () => {
   emojifyButtonSecondary.addEventListener('click', async () => {
     if (textarea.value.trim()) {
       const originalText = textarea.value.trim();
-      const transformedText = await transformText(originalText, currentState);
-      const emojis = await getEmojis(transformedText, currentState);
-      textarea.value = formatWithEmojis(transformedText, emojis);
-      emojifyButtonSecondary.classList.add('hidden');
+      
+      // show loading state
+      emojifyButtonSecondary.disabled = true;
+      emojifyButtonSecondary.textContent = 'Emojifying...';
+      
+      try {
+        const transformedText = await transformText(originalText, currentState);
+        const emojis = await getEmojis(transformedText, currentState);
+        textarea.value = formatWithEmojis(transformedText, emojis);
+      } catch (error) {
+        console.error('error emojifying text:', error);
+        textarea.value = originalText;
+      } finally {
+        // restore button state
+        emojifyButtonSecondary.disabled = false;
+        emojifyButtonSecondary.textContent = 'Emojify';
+        if (!textarea.value.trim()) {
+          emojifyButtonSecondary.classList.add('hidden');
+        }
+      }
     }
   });
     
@@ -180,12 +196,26 @@ document.addEventListener('DOMContentLoaded', () => {
   emojifyButton.addEventListener('click', async () => {
     if (welcomeTextarea.value.trim()) {
       const originalText = welcomeTextarea.value.trim();
-      const transformedText = await transformText(originalText, currentState);
-      const emojis = await getEmojis(transformedText, currentState);
-      textarea.value = formatWithEmojis(transformedText, emojis);
-      defaultState.classList.add('hidden');
-      textState.classList.remove('hidden');
-      welcomeTextarea.value = '';
+      
+      // show loading state
+      emojifyButton.disabled = true;
+      emojifyButton.textContent = 'Emojifying...';
+      
+      try {
+        const transformedText = await transformText(originalText, currentState);
+        const emojis = await getEmojis(transformedText, currentState);
+        textarea.value = formatWithEmojis(transformedText, emojis);
+        defaultState.classList.add('hidden');
+        textState.classList.remove('hidden');
+        welcomeTextarea.value = '';
+      } catch (error) {
+        console.error('error emojifying text:', error);
+        textarea.value = originalText;
+      } finally {
+        // restore button state
+        emojifyButton.disabled = false;
+        emojifyButton.textContent = 'Emojify';
+      }
     }
   });
 

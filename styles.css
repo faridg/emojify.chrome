@@ -68,8 +68,8 @@ body {
   font-style: normal;
   font-weight: 500;
   width: 100%;
-  background: rgba(0, 0, 0, 0.03);
-  border-radius: 8px;
+  background: #FAF4F4;
+  border-radius: 16px;
   padding: 16px;
   border: none;
   resize: none;
@@ -100,12 +100,16 @@ body {
   line-height: 24px;
 }
 
-.emojify-button {
-  margin-top: auto;
-}
-
 .emojify-button:hover, .emojify-button-secondary:hover {
   background: #4a3423;
+}
+
+.emojify-button.emojifying, .emojify-button-secondary.emojifying {
+  background: #4a3423;
+}
+
+.emojify-button {
+  margin-top: auto;
 }
 
 .emojify-button-secondary {
